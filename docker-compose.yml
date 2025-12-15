@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    container_name: gamecatalog_web_2
+    working_dir: /app/game_catalog
+    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8002"
+    volumes:
+      - .:/app
+      - static_volume:/app/game_catalog/staticfiles
+      - media_volume:/app/game_catalog/media
+    ports:
+      - "8002:8002"
+    environment:
+      - DEBUG=True
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+
+volumes:
+  static_volume:
+  media_volume:
+
